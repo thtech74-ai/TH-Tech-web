@@ -1,102 +1,360 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="TH Tech - Ohjelmistojen suunnittelu ja valmistus.">
-    <title>TH Tech</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TH Tech | Ohjelmistokehitys & Ember Keys</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+    :root {
+      --ink: #080909;
+      --panel: #101212;
+      --line: rgba(255, 255, 255, .12);
+      --muted: #7d817e;
+      --paper: #e8e5dd;
+      --ember: #ff4f1f;
+      --ember-hot: #ffc65d;
+      --octave: #8b928c;
+      --bar-speed: .12;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      overflow: hidden;
+      color: var(--paper);
+      background: var(--ink);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Yläpalkki - TH Tech Yritystiedot */
+    .company-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px clamp(20px, 4vw, 64px);
+      background: #050505;
+      border-bottom: 1px solid var(--line);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      z-index: 10;
+      position: relative;
+    }
+    .company-header .details { display: flex; gap: 20px; }
+    .company-header a { color: var(--ember-hot); text-decoration: none; }
+    
+    .app {
+      height: calc(100dvh - 40px); /* Tilaa yläpalkille */
+      min-height: 530px;
+      display: grid;
+      grid-template-rows: 82px minmax(0, 1fr) 211px;
+      background:
+        radial-gradient(circle at 50% 110%, rgba(255, 85, 27, .13), transparent 34%),
+        linear-gradient(115deg, #090a0a 0%, #111413 55%, #0b0c0c 100%);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 4vw, 64px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(8, 9, 9, .78);
+      z-index: 5;
+    }
+
+    .brand { display: flex; align-items: center; gap: 14px; letter-spacing: .1em; }
+    .brand-mark { width: 24px; height: 24px; position: relative; transform: skew(-16deg); border-left: 3px solid var(--ember); border-bottom: 3px solid var(--ember-hot); }
+    .brand-mark::after { content: ''; position: absolute; width: 7px; height: 7px; left: 8px; top: 7px; background: var(--ember-hot); border-radius: 50%; box-shadow: 0 0 15px 4px var(--ember); }
+    .brand strong { font-size: 14px; font-weight: 600; }
+    .brand span { color: var(--muted); font: 500 10px 'DM Mono', monospace; }
+
+    .header-tools { display: flex; align-items: center; gap: 16px; }
+    .gear-button { width: 28px; height: 28px; padding: 0; border: 1px solid var(--line); color: var(--muted); background: transparent; font-size: 17px; line-height: 1; cursor: pointer; }
+    .gear-button:hover { color: var(--ember-hot); border-color: var(--ember); }
+    
+    /* Asetuspaneeli */
+    .settings-panel { position: fixed; top: 110px; right: clamp(8px, 1.8vw, 28px); width: 236px; padding: 16px; border: 1px solid var(--line); background: rgba(13, 15, 14, .98); box-shadow: 0 14px 32px rgba(0,0,0,.35); opacity: 0; pointer-events: none; transform: translateY(-5px); transition: opacity .18s ease, transform .18s ease; z-index: 8; }
+    .settings-panel.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .setting { display: grid; gap: 8px; color: var(--muted); font: 9px 'DM Mono', monospace; letter-spacing: .1em; margin-bottom: 12px; }
+    .setting-checkbox { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .setting-checkbox input { accent-color: var(--ember); cursor: pointer; }
+    .setting-head { display: flex; justify-content: space-between; }
+    .setting output { color: var(--ember-hot); }
+    input[type="range"] { width: 100%; accent-color: var(--ember); cursor: pointer; }
+    .setting select { width: 100%; padding: 8px; border: 1px solid var(--line); color: var(--paper); background: #171a18; font: 11px 'DM Mono', monospace; cursor: pointer; }
+
+    .status { display: flex; align-items: center; gap: 10px; color: var(--muted); font: 10px 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
+    .status-dot { width: 7px; height: 7px; background: #202420; border-radius: 50%; box-shadow: none; transition: background .2s ease, box-shadow .2s ease; }
+    .status.is-ready { color: var(--ember-hot); }
+    .status.is-ready .status-dot { background: var(--ember); box-shadow: 0 0 12px var(--ember); }
+
+    .stage { position: relative; overflow: hidden; }
+    .stage::before { content: ''; position: absolute; inset: 0; opacity: .22; background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px); background-size: 80px 80px; mask-image: linear-gradient(to bottom, transparent, black 28%, black 72%, transparent); }
+    
+    .stage-info { position: absolute; top: clamp(24px, 5vh, 64px); left: clamp(20px, 4vw, 64px); z-index: 2; }
+    h1 { margin: 16px 0 9px; max-width: 460px; font-size: clamp(31px, 4vw, 58px); line-height: .96; letter-spacing: -.065em; font-weight: 600; }
+    
+    .note-readout { position: absolute; right: clamp(20px, 4vw, 64px); top: clamp(24px, 5vh, 64px); text-align: right; z-index: 2; }
+    .note-readout.is-hidden { display: none; }
+    .note-readout .label { color: var(--muted); font: 10px 'DM Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .note { margin-top: 5px; color: var(--ember-hot); font: 500 32px 'DM Mono', monospace; text-shadow: 0 0 24px rgba(255, 109, 32, .42); }
+
+    #effects { position: absolute; inset: 0; pointer-events: none; }
+    
+    /* Liekit */
+    .flame { position: absolute; bottom: 0; width: var(--width); height: 12px; transform: translateX(-50%); transform-origin: bottom; filter: blur(.15px); }
+    .flame::before, .flame::after { content: ''; position: absolute; bottom: 0; left: 50%; border-radius: 52% 48% 44% 56% / 63% 59% 41% 37%; transform: translateX(-50%) rotate(8deg); transition: filter .7s ease; }
+    .flame::before { width: 100%; height: 100%; border-radius: var(--bar-radius); background: linear-gradient(90deg, #e52b0f 0%, #ff6a1b 19%, #ffd36d 43%, #ff8a21 58%, #ed2b0d 100%); box-shadow: 0 0 9px #ff4f1f, 0 0 25px rgba(255, 67, 18, .72), inset 2px 0 4px rgba(255, 242, 162, .6), inset -2px 0 4px rgba(123, 13, 0, .7); transform: translateX(-50%); animation: bar-shimmer .42s ease-in-out infinite alternate, bar-breathe .9s ease-in-out infinite alternate; }
+    .flame::after { width: 16%; height: 100%; border-radius: 2px; background: linear-gradient(to bottom, #fff4b0, #fff8d7 42%, rgba(255, 221, 102, .12)); opacity: .95; transform: translateX(-50%); animation: core-flicker .18s ease-in-out infinite alternate; }
+    .flame.black-flame::before { background: linear-gradient(90deg, #5b1209 0%, #9f2f15 22%, #d87529 45%, #8f2411 63%, #430b06 100%); box-shadow: 0 0 8px #a93216, 0 0 18px rgba(170, 45, 14, .75), inset 1px 0 3px rgba(255, 193, 92, .45), inset -2px 0 4px rgba(45, 3, 0, .85); }
+    .flame.black-flame::after { width: 12%; background: linear-gradient(to bottom, #ffd77b, #ffe4a0 45%, rgba(255, 190, 63, .08)); }
+    
+    @keyframes bar-shimmer { from { filter: brightness(.92); } to { filter: brightness(1.18); } }
+    @keyframes bar-breathe { from { transform: translateX(-50%) scaleX(.985); } to { transform: translateX(-50%) scaleX(1.015); } }
+    @keyframes core-flicker { from { opacity: .7; transform: translateX(-50%) scaleX(.75); } to { opacity: 1; transform: translateX(-50%) scaleX(1.2); } }
+
+    /* Piano Koskettimet */
+    .keyboard-area { padding: 17px clamp(8px, 1.8vw, 28px) 18px; background: #0d0f0e; border-top: 1px solid var(--line); z-index: 4; }
+    .keyboard-head { height: 22px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font: 10px 'DM Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
+    .piano { position: relative; height: 151px; display: flex; margin-top: 3px; user-select: none; touch-action: none; }
+    .white-key { position: relative; flex: 1; min-width: 0; height: 151px; border: 0; border-right: 1px solid rgba(43, 45, 40, .7); border-top: 2px solid #e2ded2; border-radius: 0 0 3px 3px; background: linear-gradient(104deg, #c9c6bc 0%, #f5f1e4 20%, #e8e4d7 58%, #aaa9a1 100%); cursor: pointer; }
+    .white-key.is-active { background: linear-gradient(104deg, #e75b25, #ffd478 27%, #ffb63c 60%, #bc3215 100%); border-top-color: #fff0b0; }
+    .black-key { position: absolute; top: 0; z-index: 3; width: .86%; height: 93px; transform: translateX(-50%); border: 1px solid #1b1d1b; border-top: 2px solid #444842; border-radius: 0 0 3px 3px; background: linear-gradient(100deg, #030404, #171a18 48%, #010101); cursor: pointer; }
+    .black-key.is-active { background: linear-gradient(100deg, #5e160b, #a63f1b 50%, #260805); border-top-color: #c79750; }
+
+    @media (max-width: 700px) {
+      .app { grid-template-rows: 64px minmax(0, 1fr) 178px; }
+      .brand span, .status { display: none; }
+      .company-header { flex-direction: column; gap: 5px; text-align: center; }
+    }
+  </style>
 </head>
 <body>
-    <header class="site-header">
-        <div class="container nav">
-            <div class="brand">TH Tech</div>
-            <nav class="nav-links" aria-label="Päävalikko">
-                <a href="#palvelut">Palvelut</a>
-                <a href="#yritys">Yritys</a>
-                <a href="#yhteystiedot">Yhteystiedot</a>
-            </nav>
+  <!-- TH Tech Virallinen Yläpalkki Googlea varten -->
+  <div class="company-header">
+    <div style="color: #fff; font-weight: bold; letter-spacing: 1px;">TH TECH</div>
+    <div class="details">
+      <span>Y-tunnus: 3649025-9</span>
+      <span>Ohjelmistokehitys</span>
+      <a href="mailto:thtech74@gmail.com">thtech74@gmail.com</a>
+    </div>
+  </div>
+
+  <main class="app">
+    <header>
+      <div class="brand"><div class="brand-mark"></div><strong>EMBER KEYS</strong><span>BY TH TECH</span></div>
+      <div class="header-tools">
+        <button class="gear-button" id="settingsToggle" type="button" title="Settings">&#9881;</button>
+        <div class="settings-panel" id="settingsPanel">
+          <label class="setting">
+            <span class="setting-head"><span>VOLYYMI</span><output id="volValue">50</output></span>
+            <input id="volSlider" type="range" min="0" max="100" value="50">
+          </label>
+          <label class="setting">
+            <span class="setting-head"><span>KEY COUNT</span><output id="keyCountValue">88</output></span>
+            <select id="keyCount"><option value="88">88 keys</option><option value="61">61 keys</option></select>
+          </label>
+          <label class="setting">
+            <span class="setting-head"><span>RISE SPEED</span><output id="riseSpeedValue">0.12</output></span>
+            <input id="riseSpeed" type="range" min="0.04" max="0.3" step="0.01" value="0.12">
+          </label>
         </div>
+        <div class="status" id="midiStatus"><i class="status-dot"></i> MIDI</div>
+      </div>
     </header>
+    
+    <section class="stage">
+      <div class="note-readout"><div class="label">LAST NOTE</div><div class="note" id="noteReadout">--</div></div>
+      <div id="effects"></div>
+    </section>
+    
+    <section class="keyboard-area">
+      <div class="keyboard-head"><span id="keyCountLabel">88 / FULL RANGE</span><span id="rangeLabel">A0 — C8</span></div>
+      <div class="piano" id="piano"></div>
+    </section>
+  </main>
 
-    <main>
-        <section class="hero">
-            <div class="container hero-inner">
-                <div class="hero-copy">
-                    <p class="eyebrow">Digitaalinen kumppani</p>
-                    <h1>TH Tech</h1>
-                    <p class="lead">Ohjelmistojen suunnittelu, kehitys ja digitalisaatio yrityksellesi.</p>
-                    <div class="cta-row">
-                        <a class="button primary" href="#yhteystiedot">Ota yhteyttä</a>
-                        <a class="button secondary" href="#palvelut">Katso palvelut</a>
-                    </div>
-                </div>
-                <div class="hero-card" aria-label="Yrityksen tunnusluvut">
-                    <div class="card-item">
-                        <strong>Y-tunnus</strong>
-                        <span>3649025-9</span>
-                    </div>
-                    <div class="card-item">
-                        <strong>Toimiala</strong>
-                        <span>Ohjelmistokehitys</span>
-                    </div>
-                    <div class="card-item">
-                        <strong>Sähköposti</strong>
-                        <span>thtech74@gmail.com</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <script>
+    // --- ÄÄNIMOTTORI (Web Audio API) ---
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const activeOscillators = new Map();
+    let masterVolume = 0.5;
 
-        <section id="palvelut" class="section">
-            <div class="container">
-                <div class="section-heading">
-                    <p class="eyebrow">Palvelut</p>
-                    <h2>Ratkaisuja, jotka tukevat kasvua</h2>
-                </div>
+    document.getElementById('volSlider').addEventListener('input', (e) => {
+      masterVolume = e.target.value / 100;
+      document.getElementById('volValue').textContent = e.target.value;
+    });
 
-                <div class="card-grid">
-                    <article class="info-card">
-                        <h3>Verkkosivut</h3>
-                        <p>Modernit ja responsiiviset sivustot, jotka toimivat hyvin kaikilla laitteilla.</p>
-                    </article>
-                    <article class="info-card">
-                        <h3>Sovelluskehitys</h3>
-                        <p>Yksilölliset ohjelmistot, jotka helpottavat päivittäistä toimintaa ja prosesseja.</p>
-                    </article>
-                    <article class="info-card">
-                        <h3>Digitaalinen suunnittelu</h3>
-                        <p>Brändin ja käyttäjäkokemuksen suunnittelu, joka tukee liiketoimintaa.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
+    function midiToFreq(midi) {
+      return 440 * Math.pow(2, (midi - 69) / 12);
+    }
 
-        <section id="yritys" class="section muted">
-            <div class="container split">
-                <div>
-                    <p class="eyebrow">Yritys</p>
-                    <h2>Yksinkertainen, tehokas ja luotettava yhteistyö</h2>
-                </div>
-                <p>
-                    TH Tech tarjoaa asiakkailleen käytännönläheisiä ja laadukkaita digitaalisen kehityksen ratkaisuja.
-                    Tavoitteenamme on rakentaa kestäviä ja selkeitä järjestelmiä, jotka palvelevat käyttäjää.
-                </p>
-            </div>
-        </section>
-    </main>
+    function playSound(midi) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
 
-    <footer id="yhteystiedot" class="site-footer">
-        <div class="container footer-inner">
-            <div>
-                <h3>TH Tech</h3>
-                <p>Ohjelmistojen suunnittelu ja valmistus.</p>
-            </div>
-            <div class="contact-list">
-                <a href="mailto:thtech74@gmail.com">thtech74@gmail.com</a>
-                <span>Y-tunnus: 3649025-9</span>
-            </div>
-        </div>
-    </footer>
+      // Pehmeämpi ääni
+      osc.type = 'triangle';
+      osc.frequency.value = midiToFreq(midi);
+
+      filter.type = 'lowpass';
+      filter.frequency.value = 2000;
+
+      osc.connect(filter);
+      filter.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      // ADSR Envelope
+      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(masterVolume, audioCtx.currentTime + 0.02); // Attack
+      gainNode.gain.exponentialRampToValueAtTime(masterVolume * 0.3, audioCtx.currentTime + 2.5); // Decay
+
+      osc.start();
+      activeOscillators.set(midi, { osc, gainNode });
+    }
+
+    function stopSound(midi) {
+      const sound = activeOscillators.get(midi);
+      if (sound) {
+        const { osc, gainNode } = sound;
+        gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(gainNode.gain.value, audioCtx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.3); // Release
+        
+        setTimeout(() => { osc.stop(); osc.disconnect(); }, 300);
+        activeOscillators.delete(midi);
+      }
+    }
+
+    // --- KÄYTTÖLIITTYMÄ JA LIEKIT (Alkuperäinen koodisi korjattuna) ---
+    const piano = document.querySelector('#piano');
+    const effects = document.querySelector('#effects');
+    const noteReadout = document.querySelector('#noteReadout');
+    const keyCount = document.querySelector('#keyCount');
+    let notes = [];
+    const activeNotes = new Map();
+
+    document.querySelector('#settingsToggle').addEventListener('click', () => {
+      document.querySelector('#settingsPanel').classList.toggle('is-open');
+    });
+
+    function renderPiano(count) {
+      piano.replaceChildren();
+      notes = [];
+      const startMidi = 21;
+      for (let midi = startMidi; midi < startMidi + count; midi += 1) {
+        const octave = Math.floor(midi / 12) - 1;
+        const name = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][midi % 12];
+        notes.push({ midi, name, label: `${name}${octave}`, isBlack: name.includes('#') });
+      }
+      
+      const whiteNotes = notes.filter(n => !n.isBlack);
+      const whiteWidth = 100 / whiteNotes.length;
+      const whiteIndex = new Map(whiteNotes.map((n, i) => [n.midi, i]));
+      
+      whiteNotes.forEach((note) => {
+        const key = document.createElement('button');
+        key.className = 'white-key';
+        key.dataset.midi = note.midi;
+        piano.appendChild(key);
+      });
+      
+      notes.filter(n => n.isBlack).forEach(note => {
+        const key = document.createElement('button');
+        const previousWhite = whiteNotes.find(c => c.midi === note.midi - 1);
+        key.className = 'black-key';
+        key.dataset.midi = note.midi;
+        key.style.left = `${(whiteIndex.get(previousWhite.midi) + 1) * whiteWidth}%`;
+        piano.appendChild(key);
+      });
+    }
+
+    renderPiano(Number(keyCount.value));
+    keyCount.addEventListener('change', () => renderPiano(Number(keyCount.value)));
+
+    function startKey(midi) {
+      const key = piano.querySelector(`[data-midi="${midi}"]`);
+      if (!key || activeNotes.has(midi)) return;
+      
+      key.classList.add('is-active');
+      const note = notes.find(item => item.midi === midi);
+      noteReadout.textContent = note.label;
+      playSound(midi); // Soita ääni
+      
+      // Liekkiefekti
+      const flame = document.createElement('div');
+      flame.className = `flame${key.classList.contains('black-key') ? ' black-flame' : ''}`;
+      const kR = key.getBoundingClientRect();
+      const eR = effects.getBoundingClientRect();
+      flame.style.left = `${kR.left + kR.width / 2 - eR.left}px`;
+      flame.style.setProperty('--width', `${Math.max(kR.width * .94, 4)}px`);
+      effects.appendChild(flame);
+      
+      let startTime = performance.now();
+      let animFrame;
+      const grow = now => {
+        flame.style.height = `${Math.max(12, (now - startTime) * 0.12)}px`;
+        animFrame = requestAnimationFrame(grow);
+      };
+      animFrame = requestAnimationFrame(grow);
+      
+      activeNotes.set(midi, { flame, animFrame });
+    }
+
+    function releaseKey(midi) {
+      const active = activeNotes.get(midi);
+      if (!active) return;
+      
+      stopSound(midi); // Pysäytä ääni
+      
+      const key = piano.querySelector(`[data-midi="${midi}"]`);
+      key?.classList.remove('is-active');
+      cancelAnimationFrame(active.animFrame);
+      
+      // Anna liekin nousta ylös ja kadota
+      let travel = 0, last = performance.now();
+      const move = now => {
+        travel += (now - last) * 0.2;
+        last = now;
+        active.flame.style.bottom = `${travel}px`;
+        if (travel < effects.clientHeight) requestAnimationFrame(move);
+        else active.flame.remove();
+      };
+      requestAnimationFrame(move);
+      
+      activeNotes.delete(midi);
+    }
+
+    // Hiiri- ja näppäimistöohjaus
+    piano.addEventListener('pointerdown', e => {
+      const key = e.target.closest('button');
+      if (key) startKey(Number(key.dataset.midi));
+    });
+    window.addEventListener('pointerup', () => activeNotes.forEach((v, k) => releaseKey(k)));
+    
+    const kMap = { a: 60, w: 61, s: 62, e: 63, d: 64, f: 65, t: 66, g: 67, y: 68, h: 69, u: 70, j: 71, k: 72 };
+    window.addEventListener('keydown', e => { if (!e.repeat && kMap[e.key]) startKey(kMap[e.key]); });
+    window.addEventListener('keyup', e => { if (kMap[e.key]) releaseKey(kMap[e.key]); });
+
+    // MIDI Tuki
+    if (navigator.requestMIDIAccess) {
+      navigator.requestMIDIAccess().then(access => {
+        document.querySelector('#midiStatus').classList.toggle('is-ready', access.inputs.size > 0);
+        access.inputs.forEach(input => {
+          input.onmidimessage = e => {
+            const [cmd, midi, vel] = e.data;
+            if (cmd === 0x90 && vel > 0) startKey(midi);
+            else if (cmd === 0x80 || (cmd === 0x90 && vel === 0)) releaseKey(midi);
+          };
+        });
+      });
+    }
+  </script>
 </body>
 </html>
