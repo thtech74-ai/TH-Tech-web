@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TH Tech | Yrityksen tiedot</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg: #050606;
+      --surface: #101212;
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #e8e5dd;
+      --muted: #7d817e;
+      --ember: #ff4f1f;
+      --ember-hot: #ffc65d;
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
+    }
+
+    /* Yläpalkki */
+    header {
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px clamp(20px, 5vw, 80px);
+      background: rgba(5, 6, 6, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      z-index: 100;
+    }
+
+    .brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand::before {
+      content: '';
+      display: block;
+      width: 12px;
+      height: 12px;
+      background: var(--ember);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--ember);
+    }
+
+    nav { display: flex; gap: 30px; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: color 0.2s ease;
+    }
+    nav a:hover { color: var(--ember-hot); }
+
+    /* Pääsisältö */
+    main {
+      padding: 80px clamp(20px, 5vw, 80px);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      color: var(--ember-hot);
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.1;
+      margin: 0 0 50px 0;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+    }
+
+    /* Tietokortti */
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 40px;
+      margin-bottom: 40px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .info-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .info-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .info-value {
+      font-size: 1.2rem;
+      color: var(--text);
+    }
+
+    .info-value a {
+      color: var(--ember-hot);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .info-value a:hover {
+      color: var(--ember);
+    }
+
+    @media (min-width: 600px) {
+      .info-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="../" class="brand">TH TECH</a>
+    <nav>
+      <a href="../#ohjelmia">Ohjelmia</a>
+      <a href="../Tietoja/">Yritys</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="eyebrow">Yrityksen tiedot</div>
+    <h1>TH Tech</h1>
+
+    <div class="info-card">
+      <div class="info-grid">
+        
+        <div class="info-group">
+          <span class="info-label">Toiminimi</span>
+          <span class="info-value">TH Tech</span>
+        </div>
+
+        <div class="info-group">
+          <span class="info-label">Y-tunnus</span>
+          <span class="info-value">3649025-9</span>
+        </div>
+
+        <div class="info-group">
+          <span class="info-label">Yritysmuoto</span>
+          <span class="info-value">Yksityinen elinkeinonharjoittaja</span>
+        </div>
+
+        <div class="info-group">
+          <span class="info-label">Toimiala</span>
+          <span class="info-value">62100 Ohjelmistojen suunnittelu ja valmistus</span>
+        </div>
+
+        <div class="info-group">
+          <span class="info-label">Sähköposti</span>
+          <span class="info-value"><a href="mailto:thtech74@gmail.com">thtech74@gmail.com</a></span>
+        </div>
+
+        <div class="info-group">
+          <span class="info-label">Osoite</span>
+          <span class="info-value">
+            Virkakatu 5 I 6<br>
+            90570 Oulu<br>
+            Suomi
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>
