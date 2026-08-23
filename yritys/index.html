@@ -173,27 +173,36 @@
       .nav {
         flex-direction: column;
         justify-content: center;
-        padding: 1rem 0;
+        align-items: center;
+        padding: 0.9rem 0 1rem;
+      }
+
+      .brand {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.82rem;
       }
 
       .nav-links {
+        width: 100%;
         justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .nav-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.45rem 0.7rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.02);
+        font-size: 0.68rem;
       }
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav">
-      <a href="../" class="brand">TH Tech</a>
-      <nav class="nav-links" aria-label="Päävalikko">
-        <a href="../">Etusivu</a>
-        <a href="../ohjelmia/">Ohjelmat</a>
-        <a href="./">Yritys</a>
-      </nav>
-    </div>
-  </header>
-
   <main class="container">
     <p class="eyebrow">Yrityksen tiedot</p>
     <h1>TH Tech</h1>
