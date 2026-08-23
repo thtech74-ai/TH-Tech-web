@@ -1,0 +1,1 @@
+cd /workspaces/TH-Tech-web && git status --short && git add . && git commit -m "Update TH Tech landing page" && git push origin main
