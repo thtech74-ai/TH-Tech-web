@@ -82,7 +82,7 @@
     }
 
     .hero {
-      padding: 120px 0 80px;
+      padding: 140px 0 100px;
       max-width: 800px;
     }
 
@@ -107,77 +107,6 @@
       font-size: 1.25rem;
       color: var(--muted);
       max-width: 600px;
-    }
-
-    /* Ohjelmia-osio */
-    .section-title {
-      font-size: 2rem;
-      margin: 80px 0 40px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 30px;
-      margin-bottom: 100px;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 40px 30px;
-      text-decoration: none;
-      color: var(--text);
-      transition: transform 0.3s ease, border-color 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: var(--ember);
-      box-shadow: 0 10px 30px rgba(255, 79, 31, 0.05);
-    }
-
-    .card-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--ember);
-      margin-bottom: 15px;
-      letter-spacing: 0.1em;
-    }
-
-    .card h3 {
-      font-size: 1.5rem;
-      margin: 0 0 15px 0;
-    }
-
-    .card p {
-      color: var(--muted);
-      margin: 0 0 30px 0;
-      flex-grow: 1;
-    }
-
-    .card-link {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
-      color: var(--ember-hot);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .card-link::after {
-      content: '→';
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover .card-link::after {
-      transform: translateX(5px);
     }
 
     /* Alapalkki */
@@ -221,9 +150,9 @@
 <body>
 
   <header>
-    <a href="#" class="brand">TH TECH</a>
+    <a href="./" class="brand">TH TECH</a>
     <nav>
-      <a href="#ohjelmia">Ohjelmia</a>
+      <a href="Ohjelmia/">Ohjelmia</a>
       <a href="Tietoja/">Yritys</a>
     </nav>
   </header>
@@ -234,17 +163,6 @@
       <h1>Ohjelmistojen suunnittelu ja valmistus.</h1>
       <p>Modernien, suorituskykyisten ja interaktiivisten verkkosovellusten kehitystä.</p>
     </section>
-
-    <h2 id="ohjelmia" class="section-title">Ohjelmia</h2>
-    
-    <div class="grid">
-      <a href="Ohjelmia/ember-keys/" class="card">
-        <div class="card-tag">WEB MIDI API / TONE.JS</div>
-        <h3>Ember Keys</h3>
-        <p>Selainpohjainen MIDI-soitin ja syntetisaattori. Lataa oma MIDI-tiedostotsi ja soita laadukkailla pianoäänillä suoraan selaimessa.</p>
-        <div class="card-link">Avaa sovellus</div>
-      </a>
-    </div>
   </main>
 
   <footer>
