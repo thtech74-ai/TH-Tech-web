@@ -10,166 +10,196 @@
     :root {
       --bg: #050606;
       --surface: #101212;
+      --surface-2: #171b1b;
       --line: rgba(255, 255, 255, 0.08);
       --text: #e8e5dd;
-      --muted: #7d817e;
+      --muted: #a4aaa4;
       --ember: #ff4f1f;
       --ember-hot: #ffc65d;
+      --shadow: 0 22px 50px rgba(0, 0, 0, 0.35);
     }
 
     * { box-sizing: border-box; }
-    
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      background-color: var(--bg);
+      background: radial-gradient(circle at top, rgba(255, 79, 31, 0.15), transparent 20%), var(--bg);
       color: var(--text);
       font-family: 'Space Grotesk', sans-serif;
       line-height: 1.6;
     }
 
-    /* Yläpalkki */
-    header {
+    a {
+      color: inherit;
+    }
+
+    .container {
+      width: min(900px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .site-header {
       position: sticky;
       top: 0;
+      z-index: 20;
+      background: rgba(5, 6, 6, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px clamp(20px, 5vw, 80px);
-      background: rgba(5, 6, 6, 0.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-      z-index: 100;
+      min-height: 74px;
+      gap: 1rem;
     }
 
     .brand {
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--text);
       text-decoration: none;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      color: var(--text);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
     }
 
     .brand::before {
       content: '';
-      display: block;
+      display: inline-block;
       width: 12px;
       height: 12px;
       background: var(--ember);
       border-radius: 50%;
-      box-shadow: 0 0 10px var(--ember);
+      box-shadow: 0 0 16px rgba(255, 79, 31, 0.9);
     }
 
-    nav { display: flex; gap: 30px; }
-    nav a {
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 1rem 1.4rem;
+    }
+
+    .nav-links a {
       color: var(--muted);
       text-decoration: none;
       font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
       transition: color 0.2s ease;
     }
-    nav a:hover { color: var(--ember-hot); }
 
-    /* Pääsisältö */
+    .nav-links a:hover {
+      color: var(--ember-hot);
+    }
+
     main {
-      padding: 80px clamp(20px, 5vw, 80px);
-      max-width: 900px;
-      margin: 0 auto;
+      padding: 4rem 0 5rem;
     }
 
     .eyebrow {
-      font-family: 'DM Mono', monospace;
+      margin: 0 0 0.9rem;
       color: var(--ember-hot);
-      font-size: 0.9rem;
-      letter-spacing: 0.2em;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      margin-bottom: 20px;
     }
 
     h1 {
-      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-size: clamp(2.3rem, 6vw, 4rem);
+      margin: 0 0 2rem;
       line-height: 1.1;
-      margin: 0 0 50px 0;
-      font-weight: 600;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.05em;
     }
 
-    /* Tietokortti */
     .info-card {
       background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 40px;
-      margin-bottom: 40px;
+      border-radius: 18px;
+      padding: clamp(1.25rem, 3vw, 2.5rem);
+      box-shadow: var(--shadow);
     }
 
     .info-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 30px;
+      gap: 1.5rem;
     }
 
     .info-group {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 0.35rem;
+      min-width: 0;
     }
 
     .info-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
       color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
     }
 
     .info-value {
-      font-size: 1.2rem;
+      font-size: 1.08rem;
       color: var(--text);
+      line-height: 1.5;
     }
 
     .info-value a {
       color: var(--ember-hot);
       text-decoration: none;
-      transition: color 0.2s ease;
     }
 
-    .info-value a:hover {
-      color: var(--ember);
-    }
-
-    @media (min-width: 600px) {
+    @media (min-width: 680px) {
       .info-grid {
         grid-template-columns: 1fr 1fr;
       }
     }
 
-    @media (max-width: 600px) {
-      nav { display: none; }
+    @media (max-width: 680px) {
+      .nav {
+        flex-direction: column;
+        justify-content: center;
+        padding: 1rem 0;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <a href="../" class="brand">TH TECH</a>
-    <nav>
-  <a href="/TH-Tech-web/Ohjelmia/">Ohjelmia</a>
-  <a href="/TH-Tech-web/Tietoja/">Yritys</a>
-</nav>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="../" class="brand">TH Tech</a>
+      <nav class="nav-links" aria-label="Päävalikko">
+        <a href="../">Etusivu</a>
+        <a href="../ohjelmia/">Ohjelmat</a>
+        <a href="./">Yritys</a>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <div class="eyebrow">Yrityksen tiedot</div>
+  <main class="container">
+    <p class="eyebrow">Yrityksen tiedot</p>
     <h1>TH Tech</h1>
 
     <div class="info-card">
       <div class="info-grid">
-        
         <div class="info-group">
           <span class="info-label">Toiminimi</span>
           <span class="info-value">TH Tech</span>
@@ -197,15 +227,10 @@
 
         <div class="info-group">
           <span class="info-label">Osoite</span>
-          <span class="info-value">
-            90570 Oulu<br>
-            Suomi
-          </span>
+          <span class="info-value">90570 Oulu<br>Suomi</span>
         </div>
-
       </div>
     </div>
   </main>
-
 </body>
 </html>

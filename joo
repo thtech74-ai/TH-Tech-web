@@ -1,1 +1,4 @@
 cd /workspaces/TH-Tech-web && git status --short && git add . && git commit -m "Update TH Tech landing page" && git push origin main
+
+Sivusto on parhaillaan rikki, mutta yritämme parhaamme mukaan piilottaa sen.
+

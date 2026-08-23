@@ -10,169 +10,445 @@
     :root {
       --bg: #050606;
       --surface: #101212;
+      --surface-2: #171b1b;
       --line: rgba(255, 255, 255, 0.08);
       --text: #e8e5dd;
-      --muted: #7d817e;
+      --muted: #a4aaa4;
       --ember: #ff4f1f;
       --ember-hot: #ffc65d;
+      --shadow: 0 22px 50px rgba(0, 0, 0, 0.35);
     }
 
     * { box-sizing: border-box; }
-    
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      background-color: var(--bg);
+      background: radial-gradient(circle at top, rgba(255, 79, 31, 0.15), transparent 25%), var(--bg);
       color: var(--text);
       font-family: 'Space Grotesk', sans-serif;
       line-height: 1.6;
     }
 
-    /* Yläpalkki */
-    header {
+    a {
+      color: inherit;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .site-header {
       position: sticky;
       top: 0;
+      z-index: 20;
+      background: rgba(5, 6, 6, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px clamp(20px, 5vw, 80px);
-      background: rgba(5, 6, 6, 0.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-      z-index: 100;
+      min-height: 74px;
+      gap: 1rem;
     }
 
     .brand {
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--text);
       text-decoration: none;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      color: var(--text);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
     }
 
     .brand::before {
       content: '';
-      display: block;
+      display: inline-block;
       width: 12px;
       height: 12px;
       background: var(--ember);
       border-radius: 50%;
-      box-shadow: 0 0 10px var(--ember);
+      box-shadow: 0 0 16px rgba(255, 79, 31, 0.9);
     }
 
-    nav { display: flex; gap: 30px; }
-    nav a {
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 1rem 1.4rem;
+    }
+
+    .nav-links a {
       color: var(--muted);
       text-decoration: none;
       font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
       transition: color 0.2s ease;
     }
-    nav a:hover { color: var(--ember-hot); }
 
-    /* Pääsisältö */
+    .nav-links a:hover {
+      color: var(--ember-hot);
+    }
+
     main {
-      padding: 0 clamp(20px, 5vw, 80px);
-      max-width: 1400px;
-      margin: 0 auto;
+      overflow: hidden;
     }
 
     .hero {
-      padding: 140px 0 100px;
-      max-width: 800px;
+      padding: 5.5rem 0 4rem;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2.5rem;
+      align-items: center;
     }
 
     .eyebrow {
-      font-family: 'DM Mono', monospace;
+      margin: 0 0 0.9rem;
       color: var(--ember-hot);
-      font-size: 0.9rem;
-      letter-spacing: 0.2em;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      margin-bottom: 20px;
     }
 
-    h1 {
-      font-size: clamp(3rem, 6vw, 5rem);
-      line-height: 1.1;
-      margin: 0 0 30px 0;
-      font-weight: 600;
+    h1, h2, h3 {
+      margin: 0 0 1rem;
+      line-height: 1.08;
       letter-spacing: -0.04em;
     }
 
-    .hero p {
-      font-size: 1.25rem;
-      color: var(--muted);
-      max-width: 600px;
+    h1 {
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      max-width: 700px;
     }
 
-    /* Alapalkki */
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 60px clamp(20px, 5vw, 80px);
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 1.18rem;
+    }
+
+    .cta-row {
+      margin-top: 1.8rem;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
       flex-wrap: wrap;
-      gap: 40px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
-      color: var(--muted);
+      gap: 1rem;
     }
 
-    .footer-info {
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 1.4rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button.primary {
+      background: var(--ember);
+      color: #fff;
+      box-shadow: 0 12px 30px rgba(255, 79, 31, 0.35);
+    }
+
+    .button.secondary {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text);
+    }
+
+    .hero-card {
+      background: rgba(18, 20, 20, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 1.4rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card-item {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 0.3rem;
+      padding: 1rem 0.8rem;
+      border-bottom: 1px solid var(--line);
     }
 
-    .footer-info strong {
+    .card-item:last-child {
+      border-bottom: none;
+    }
+
+    .card-item strong {
       color: var(--text);
       font-size: 1rem;
-      font-family: 'Space Grotesk', sans-serif;
     }
 
-    .footer-links a {
+    .card-item span {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .section {
+      padding: 4rem 0;
+    }
+
+    .muted {
+      background: rgba(255, 255, 255, 0.02);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-heading {
+      margin-bottom: 2rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.5rem;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
+    }
+
+    .info-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .split p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .mini-item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .mini-item strong {
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .site-footer {
+      padding: 2.5rem 0 3rem;
+      border-top: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-inner h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.2rem;
+    }
+
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      text-align: right;
+      color: var(--muted);
+    }
+
+    .contact-list a {
       color: var(--text);
       text-decoration: none;
-      transition: color 0.2s ease;
     }
-    .footer-links a:hover { color: var(--ember); }
 
-    @media (max-width: 600px) {
-      nav { display: none; }
+    @media (max-width: 760px) {
+      .hero-inner,
+      .split,
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        flex-direction: column;
+        justify-content: center;
+        padding: 1rem 0;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
+
+      .cta-row {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .contact-list {
+        text-align: left;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <a href="./" class="brand">TH TECH</a>
-   <nav>
-  <a href="/TH-Tech-web/Ohjelmia/">Ohjelmia</a>
-  <a href="/TH-Tech-web/Tietoja/">Yritys</a>
-</nav>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="./" class="brand">TH Tech</a>
+      <nav class="nav-links" aria-label="Päävalikko">
+        <a href="./">Etusivu</a>
+        <a href="./ohjelmia/">Ohjelmat</a>
+        <a href="./yritys/">Yritys</a>
+      </nav>
+    </div>
   </header>
 
   <main>
     <section class="hero">
-      <div class="eyebrow">Digitaalisia ratkaisuja</div>
-      <h1>Ohjelmistojen suunnittelu ja valmistus.</h1>
-      <p>Modernien, suorituskykyisten ja interaktiivisten verkkosovellusten kehitystä.</p>
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">Digitaalisia ratkaisuja</p>
+          <h1>Selkeitä, nopeita ja käytettävämpiä digitaalisia tuotteita.</h1>
+          <p class="lead">TH Tech auttaa yrityksiä ja yrittäjiä rakentamaan verkkosovelluksia, käyttöliittymiä ja digitaalisia työkaluja, jotka toimivat sekä työpöydällä että puhelimella.</p>
+          <div class="cta-row">
+            <a class="button primary" href="./ohjelmia/">Katso ohjelmat</a>
+            <a class="button secondary" href="mailto:thtech74@gmail.com">Ota yhteyttä</a>
+          </div>
+        </div>
+
+        <div class="hero-card" aria-label="TH Techin palvelut">
+          <div class="card-item">
+            <strong>Verkkosovellukset</strong>
+            <span>Modernit ja responsiiviset käyttöliittymät eri laitteille.</span>
+          </div>
+          <div class="card-item">
+            <strong>Tuotesuunnittelu</strong>
+            <span>Ymmärrettävä ja käyttäjäystävällinen käyttökokemus.</span>
+          </div>
+          <div class="card-item">
+            <strong>Interaktiiviset kokemukset</strong>
+            <span>Sovellukset, jotka tekevät toiminnasta sekä tehokasta että miellyttävää.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section muted">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Miksi valita TH Tech?</p>
+          <h2>Toimiva ratkaisu ja selkeä prosessi.</h2>
+        </div>
+
+        <div class="card-grid">
+          <article class="info-card">
+            <h3>Suunnittelu</h3>
+            <p>Puretaan ongelma ja rakennetaan selkeä näkemys siitä, mitä käyttäjä tarvitsee.</p>
+          </article>
+
+          <article class="info-card">
+            <h3>Rakentaminen</h3>
+            <p>Keitämme ratkaisut tehokkaasti ja huolellisesti käyttäen modernia teknologiaa.</p>
+          </article>
+
+          <article class="info-card">
+            <h3>Toiminnallisuus</h3>
+            <p>Kaikki ratkaisut rakennetaan käytettäväksi sekä puhelimella että tietokoneella.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">Lähestymistapa</p>
+          <h2>Ratkaisut, jotka toimivat käytännössä.</h2>
+          <p>TH Tech keskittyy siihen, että teknologia palvelee käytettävyyttä, nopeutta ja näkyvyyttä. Jokainen tuote rakennetaan ottaen huomioon käyttäjäkokemus sekä liiketoiminnan tarpeet.</p>
+        </div>
+
+        <div class="mini-list">
+          <div class="mini-item">
+            <strong>Responsiivinen suunnittelu</strong>
+            <span>Toimii mobiililla, tabletilla ja työpöydällä.</span>
+          </div>
+          <div class="mini-item">
+            <strong>Selkeä käytettävyys</strong>
+            <span>Ymmärrettävät toiminnot ja sujuva navigaatio.</span>
+          </div>
+          <div class="mini-item">
+            <strong>Tavoitteet edellä</strong>
+            <span>Teknologia tukee liiketoimintaa ja käyttäjien arkea.</span>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <div class="footer-info">
-      <strong>TH Tech</strong>
-      <span>Y-tunnus: 3649025-9</span>
-      <span>Oulu, Suomi</span>
-    </div>
-    <div class="footer-links">
-      <a href="mailto:thtech74@gmail.com">thtech74@gmail.com</a>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <h3>TH Tech</h3>
+        <span>Y-tunnus: 3649025-9</span>
+      </div>
+      <div class="contact-list">
+        <a href="mailto:thtech74@gmail.com">thtech74@gmail.com</a>
+        <span>Oulu, Suomi</span>
+      </div>
     </div>
   </footer>
 
