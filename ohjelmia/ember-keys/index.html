@@ -27,7 +27,8 @@
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       color: var(--paper);
       background: #000;
       font-family: 'Space Grotesk', sans-serif;
@@ -151,13 +152,31 @@
     .black-key.near-active { box-shadow: 0 0 17px rgba(185, 52, 18, .55), 3px 5px 7px rgba(0,0,0,.6); }
 
     @media (max-width: 700px) {
-      .app { grid-template-rows: 64px minmax(0, 1fr) 178px; }
+      body {
+        overflow: auto;
+      }
+
+      .app {
+        height: auto;
+        min-height: 100dvh;
+        grid-template-rows: 64px auto auto;
+      }
+
       header { padding: 0 18px; }
       .brand span, .status { display: none; }
       .note-readout { top: 26px; right: 20px; }
       .note { font-size: 24px; }
-      .keyboard-area { padding: 5px 10px 10px; }
-      .piano, .white-key { height: 126px; }
+      .keyboard-area {
+        padding: 5px 10px 10px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .piano {
+        min-width: 760px;
+        width: 760px;
+        max-width: none;
+      }
+      .white-key { height: 126px; }
       .black-key { height: 78px; }
       .white-key::after { display: none; }
       .keyboard-head { font-size: 8px; }
