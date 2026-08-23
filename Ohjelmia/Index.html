@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TH Tech | Ohjelmistokehitys</title>
+  <title>TH Tech | Ohjelmat</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
@@ -76,14 +76,9 @@
 
     /* Pääsisältö */
     main {
-      padding: 0 clamp(20px, 5vw, 80px);
+      padding: 80px clamp(20px, 5vw, 80px);
       max-width: 1400px;
       margin: 0 auto;
-    }
-
-    .hero {
-      padding: 120px 0 80px;
-      max-width: 800px;
     }
 
     .eyebrow {
@@ -96,27 +91,14 @@
     }
 
     h1 {
-      font-size: clamp(3rem, 6vw, 5rem);
+      font-size: clamp(2.5rem, 5vw, 4rem);
       line-height: 1.1;
-      margin: 0 0 30px 0;
+      margin: 0 0 50px 0;
       font-weight: 600;
       letter-spacing: -0.04em;
     }
 
-    .hero p {
-      font-size: 1.25rem;
-      color: var(--muted);
-      max-width: 600px;
-    }
-
-    /* Ohjelmia-osio */
-    .section-title {
-      font-size: 2rem;
-      margin: 80px 0 40px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-    }
-
+    /* Sovelluskortit */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -221,29 +203,27 @@
 <body>
 
   <header>
-    <a href="#" class="brand">TH TECH</a>
+    <a href="../" class="brand">TH TECH</a>
     <nav>
-      <a href="#ohjelmia">Ohjelmia</a>
-      <a href="Tietoja/">Yritys</a>
+      <a href="./">Ohjelmat</a>
+      <a href="../Tietoja/">Yritys</a>
     </nav>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="eyebrow">Digitaalisia ratkaisuja</div>
-      <h1>Ohjelmistojen suunnittelu ja valmistus.</h1>
-      <p>Modernien, suorituskykyisten ja interaktiivisten verkkosovellusten kehitystä.</p>
-    </section>
-
-    <h2 id="ohjelmia" class="section-title">Ohjelmia</h2>
+    <div class="eyebrow">Kehitystyöt ja sovellukset</div>
+    <h1>Ohjelmat</h1>
     
     <div class="grid">
-      <a href="Ohjelmia/ember-keys/" class="card">
+      <!-- Ember Keys -kortti -->
+      <a href="ember-keys/" class="card">
         <div class="card-tag">WEB MIDI API / TONE.JS</div>
         <h3>Ember Keys</h3>
-        <p>Selainpohjainen MIDI-soitin ja syntetisaattori. Lataa oma MIDI-tiedostotsi ja soita laadukkailla pianoäänillä suoraan selaimessa.</p>
+        <p>Selainpohjainen MIDI-soitin ja syntetisaattori aidoilla pianoäänillä. Lataa oma MIDI-tiedostosi ja nauti visuaalisesta nuottinäkymästä.</p>
         <div class="card-link">Avaa sovellus</div>
       </a>
+
+      <!-- Tähän voit myöhemmin lisätä uusia ohjelmia kopioimalla kortin -->
     </div>
   </main>
 
