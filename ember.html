@@ -1,283 +1,507 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TH Tech | Ohjelmistokehitys</title>
+  <title>EMBER KEYS - LIVE</title>
+  
+  <!-- TONE.JS KIRJASTO LAADUKKAILLE ÄÄNILLE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
     :root {
-      --bg: #050606;
-      --surface: #101212;
-      --line: rgba(255, 255, 255, 0.08);
-      --text: #e8e5dd;
+      --ink: #000000;
+      --panel: #050606;
+      --line: rgba(255, 255, 255, .08);
       --muted: #7d817e;
+      --paper: #e8e5dd;
       --ember: #ff4f1f;
       --ember-hot: #ffc65d;
+      --octave: #8b928c;
+      --bar-speed: .12;
+      --key-brightness: .56;
     }
 
     * { box-sizing: border-box; }
-    
     body {
       margin: 0;
-      background-color: var(--bg);
-      color: var(--text);
+      overflow: hidden;
+      color: var(--paper);
+      background: #000;
       font-family: 'Space Grotesk', sans-serif;
-      line-height: 1.6;
     }
 
-    /* Yläpalkki */
-    header {
-      position: sticky;
-      top: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px clamp(20px, 5vw, 80px);
-      background: rgba(5, 6, 6, 0.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-      z-index: 100;
-    }
-
-    .brand {
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--text);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand::before {
-      content: '';
-      display: block;
-      width: 12px;
-      height: 12px;
-      background: var(--ember);
-      border-radius: 50%;
-      box-shadow: 0 0 10px var(--ember);
-    }
-
-    nav {
-      display: flex;
-      gap: 30px;
-    }
-
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      transition: color 0.2s ease;
-    }
-
-    nav a:hover {
-      color: var(--ember-hot);
-    }
-
-    /* Pääsisältö */
-    main {
-      padding: 0 clamp(20px, 5vw, 80px);
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .hero {
-      padding: 120px 0 80px;
-      max-width: 800px;
-    }
-
-    .eyebrow {
-      font-family: 'DM Mono', monospace;
-      color: var(--ember-hot);
-      font-size: 0.9rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: clamp(3rem, 6vw, 5rem);
-      line-height: 1.1;
-      margin: 0 0 30px 0;
-      font-weight: 600;
-      letter-spacing: -0.04em;
-    }
-
-    .hero p {
-      font-size: 1.25rem;
-      color: var(--muted);
-      max-width: 600px;
-    }
-
-    /* Ohjelmia-osio */
-    .section-title {
-      font-size: 2rem;
-      margin: 80px 0 40px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .grid {
+    .app {
+      height: 100dvh;
+      min-height: 530px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 30px;
-      margin-bottom: 100px;
+      grid-template-rows: 82px minmax(0, 1fr) 211px;
+      background: radial-gradient(circle at 50% 110%, rgba(255, 73, 20, .07), transparent 30%), #000;
     }
 
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 40px 30px;
-      text-decoration: none;
-      color: var(--text);
-      transition: transform 0.3s ease, border-color 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: var(--ember);
-      box-shadow: 0 10px 30px rgba(255, 79, 31, 0.05);
-    }
-
-    .card-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--ember);
-      margin-bottom: 15px;
-      letter-spacing: 0.1em;
-    }
-
-    .card h3 {
-      font-size: 1.5rem;
-      margin: 0 0 15px 0;
-    }
-
-    .card p {
-      color: var(--muted);
-      margin: 0 0 30px 0;
-      flex-grow: 1;
-    }
-
-    .card-link {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
-      color: var(--ember-hot);
+    header {
       display: flex;
       align-items: center;
-      gap: 10px;
-    }
-
-    .card-link::after {
-      content: '→';
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover .card-link::after {
-      transform: translateX(5px);
-    }
-
-    /* Alapalkki */
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 60px clamp(20px, 5vw, 80px);
-      display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 40px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
-      color: var(--muted);
+      padding: 0 clamp(20px, 4vw, 64px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(0, 0, 0, .94);
+      z-index: 5;
     }
 
-    .footer-info {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    .brand { display: flex; align-items: center; gap: 14px; letter-spacing: .1em; }
+    .brand-mark { width: 24px; height: 24px; position: relative; transform: skew(-16deg); border-left: 3px solid var(--ember); border-bottom: 3px solid var(--ember-hot); }
+    .brand-mark::after { content: ''; position: absolute; width: 7px; height: 7px; left: 8px; top: 7px; background: var(--ember-hot); border-radius: 50%; box-shadow: 0 0 15px 4px var(--ember); }
+    .brand strong { font-size: 14px; font-weight: 600; }
 
-    .footer-info strong {
-      color: var(--text);
-      font-size: 1rem;
-      font-family: 'Space Grotesk', sans-serif;
-    }
+    #loaderStatus { color: var(--ember-hot); font: 500 11px 'DM Mono', monospace; letter-spacing: 0.1em; padding: 6px 12px; background: rgba(20, 22, 20, 0.8); border: 1px solid var(--line); border-radius: 4px;}
 
-    .footer-links a {
-      color: var(--text);
-      text-decoration: none;
-      transition: color 0.2s ease;
+    .header-tools { display: flex; align-items: center; gap: 16px; }
+    .gear-button { width: 28px; height: 28px; padding: 0; border: 1px solid var(--line); color: var(--muted); background: transparent; font-size: 17px; line-height: 1; cursor: pointer; }
+    .gear-button:hover { color: var(--ember-hot); border-color: var(--ember); }
+    
+    .settings-panel { position: fixed; top: 78px; right: clamp(8px, 1.8vw, 28px); width: 236px; padding: 16px; border: 1px solid var(--line); background: rgba(13, 15, 14, .98); box-shadow: 0 14px 32px rgba(0,0,0,.35); opacity: 0; pointer-events: none; transform: translateY(-5px); transition: opacity .18s ease, transform .18s ease; z-index: 8; }
+    .settings-panel.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .setting { display: grid; gap: 8px; color: var(--muted); font: 9px 'DM Mono', monospace; letter-spacing: .1em; margin-bottom: 12px; }
+    .setting-checkbox { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .setting-checkbox input { accent-color: var(--ember); cursor: pointer; }
+    .setting-head { display: flex; justify-content: space-between; }
+    .setting output { color: var(--ember-hot); }
+    input[type="range"] { width: 100%; accent-color: var(--ember); cursor: pointer; }
+    .setting select { width: 100%; padding: 8px; border: 1px solid var(--line); color: var(--paper); background: #171a18; font: 11px 'DM Mono', monospace; cursor: pointer; }
+
+    .status { display: flex; align-items: center; gap: 10px; color: var(--muted); font: 10px 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
+    .status-dot { width: 7px; height: 7px; background: #202420; border-radius: 50%; box-shadow: none; transition: background .2s ease, box-shadow .2s ease; }
+    .status.is-ready { color: var(--ember-hot); }
+    .status.is-ready .status-dot { background: var(--ember); box-shadow: 0 0 12px var(--ember); }
+
+    .stage { position: relative; overflow: hidden; }
+    .stage::before { content: ''; position: absolute; inset: 0; opacity: .1; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 80px 80px; mask-image: linear-gradient(to bottom, transparent, black 28%, black 72%, transparent); }
+    .stage::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 30%; background: linear-gradient(transparent, rgba(255, 67, 19, .025)); pointer-events: none; }
+
+    .note-readout { position: absolute; right: clamp(20px, 4vw, 64px); top: clamp(24px, 5vh, 64px); text-align: right; z-index: 2; }
+    .note-readout.is-hidden { display: none; }
+    .note-readout .label { color: var(--muted); font: 10px 'DM Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .note { margin-top: 5px; color: var(--ember-hot); font: 500 32px 'DM Mono', monospace; text-shadow: 0 0 24px rgba(255, 109, 32, .42); }
+
+    #effects { position: absolute; inset: 0; pointer-events: none; }
+    
+    .flame { 
+      position: absolute; 
+      bottom: 0; 
+      width: var(--width); 
+      height: 4px; 
+      transform: translateX(-50%) translateZ(0); 
+      transform-origin: bottom; 
+      filter: blur(.15px); 
+      isolation: isolate; 
+      will-change: height, bottom, transform; 
+    }
+    .flame::before, .flame::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
+    .flame::before { z-index: 2; width: 100%; height: 100%; border: 1px solid rgba(255, 179, 73, .38); border-bottom-color: rgba(255, 222, 125, .62); border-radius: 3px 3px 0 0; background: linear-gradient(to bottom, rgba(255, 150, 42, .04), rgba(255, 126, 24, .08) 72%, rgba(255, 207, 91, .17)), linear-gradient(90deg, rgba(194, 31, 9, .06), rgba(255, 126, 24, .09) 22%, rgba(255, 220, 114, .06) 45%, rgba(255, 103, 19, .08) 68%, rgba(183, 27, 8, .05)); box-shadow: 0 0 5px rgba(255, 79, 31, .38), 0 0 13px rgba(255, 67, 18, .16), inset 1px 0 3px rgba(255, 242, 162, .42), inset -1px 0 3px rgba(123, 13, 0, .38), inset 0 -8px 8px rgba(255, 202, 85, .12); animation: bar-shimmer .72s ease-in-out infinite alternate; }
+    .flame::after { z-index: 3; width: 14%; height: 100%; border-radius: 2px; background: linear-gradient(to bottom, #fff4b0, #fff8d7 42%, rgba(255, 221, 102, .1)); opacity: .88; animation: core-flicker .18s ease-in-out infinite alternate; }
+    .flame-aura { position: absolute; z-index: 1; inset: -6px -110%; border-radius: 45%; background: radial-gradient(ellipse at 50% 100%, rgba(255, 76, 19, .52) 0%, rgba(255, 135, 34, .22) 35%, rgba(255, 92, 18, .06) 58%, transparent 76%); filter: blur(8px); opacity: .54; animation: aura-pulse .72s ease-in-out infinite alternate; pointer-events: none; }
+    .flame-lick { position: absolute; z-index: 4; left: 50%; top: 0; width: 100%; height: 100%; transform: translateX(-50%); pointer-events: none; }
+    .flame-tongue { position: absolute; bottom: 0; left: var(--tongue-left); width: var(--tongue-width); height: var(--tongue-height); border-radius: 58% 42% 38% 62% / 70% 55% 45% 30%; background: linear-gradient(to top, rgba(238, 43, 10, .44), rgba(255, 148, 39, .34) 56%, rgba(255, 224, 127, .14)); filter: blur(2px); opacity: var(--tongue-opacity); transform-origin: bottom; animation: tongue-flicker var(--tongue-speed) ease-in-out infinite alternate; }
+    .flame.black-flame::before { border-color: rgba(190, 111, 49, .34); background: linear-gradient(90deg, rgba(91, 18, 9, .06), rgba(159, 47, 21, .1) 25%, rgba(216, 117, 41, .07) 48%, rgba(143, 36, 17, .09) 70%, rgba(67, 11, 6, .05)); box-shadow: 0 0 5px rgba(169, 50, 22, .4), 0 0 12px rgba(170, 45, 14, .18), inset 1px 0 3px rgba(255, 193, 92, .32), inset -1px 0 3px rgba(45, 3, 0, .46); }
+    .flame.black-flame::after { width: 12%; background: linear-gradient(to bottom, #ffd77b, #ffe4a0 45%, rgba(255, 190, 63, .08)); }
+    
+    .trail-particle { 
+      position: absolute; 
+      z-index: 5; 
+      width: var(--particle-size); 
+      height: var(--particle-size); 
+      left: var(--particle-left); 
+      bottom: var(--particle-bottom); 
+      border-radius: 50%; 
+      background: #ffd77b; 
+      box-shadow: 0 0 5px 1px #ff6a1f; 
+      pointer-events: none; 
+      will-change: transform, opacity; 
+      animation: particle-rise var(--particle-duration) ease-out forwards; 
     }
     
-    .footer-links a:hover {
-      color: var(--ember);
-    }
+    @keyframes bar-shimmer { from { filter: brightness(.98); } to { filter: brightness(1.05); } }
+    @keyframes aura-pulse { from { opacity: .44; transform: scaleX(.98); } to { opacity: .58; transform: scaleX(1.01); } }
+    @keyframes tongue-flicker { from { opacity: calc(var(--tongue-opacity) * .84); transform: scaleX(.97); } to { opacity: var(--tongue-opacity); transform: scaleX(1.03); } }
+    @keyframes core-flicker { from { opacity: .7; transform: translateX(-50%) scaleX(.75); } to { opacity: 1; transform: translateX(-50%) scaleX(1.2); } }
+    @keyframes particle-rise { 0% { opacity: 0; transform: translate(0, 0) scale(.35); } 14% { opacity: .9; } 100% { opacity: 0; transform: translate(var(--particle-drift), var(--particle-rise)) scale(.05); } }
 
-    @media (max-width: 600px) {
-      nav { display: none; } /* Pienillä näytöillä valikko piiloon yksinkertaisuuden vuoksi */
+    .keyboard-area { padding: 6px clamp(8px, 1.8vw, 28px) 10px; background: #020303; border-top: 1px solid var(--line); z-index: 4; }
+    .keyboard-head { height: 14px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font: 9px 'DM Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
+    .keyboard-head span:last-child { color: #555b57; }
+    .piano { position: relative; height: 151px; display: flex; margin-top: 0; user-select: none; touch-action: none; filter: brightness(var(--key-brightness)); }
+    .white-key { position: relative; flex: 1; min-width: 0; height: 151px; border: 0; border-right: 1px solid rgba(43, 45, 40, .7); border-top: 2px solid #e2ded2; border-radius: 0 0 3px 3px; background: linear-gradient(104deg, #c9c6bc 0%, #f5f1e4 20%, #e8e4d7 58%, #aaa9a1 100%); box-shadow: inset 5px 0 7px rgba(255,255,255,.16), inset -5px 0 7px rgba(0,0,0,.1), inset 0 -16px 14px rgba(0,0,0,.13), 0 2px 3px rgba(0,0,0,.36); cursor: pointer; }
+    .white-key:first-child { border-left: 1px solid rgba(43, 45, 40, .7); }
+    .white-key.is-active { background: linear-gradient(104deg, #c9c6bc 0%, #f5f1e4 20%, #e8e4d7 58%, #aaa9a1 100%); border-top-color: #f1d993; box-shadow: inset 5px 0 7px rgba(255,255,255,.16), inset 0 -16px 14px rgba(0,0,0,.13), 0 -8px 24px rgba(255, 104, 28, .5); transform: translateY(2px); }
+    .white-key.is-active::before, .black-key.is-active::before { content: ''; position: absolute; z-index: 5; top: 0; left: 10%; right: 10%; height: 24px; border-radius: 0 0 50% 50%; background: linear-gradient(to bottom, rgba(255, 236, 157, .82), rgba(255, 126, 26, .22), transparent); filter: blur(2px); pointer-events: none; }
+    .white-key.near-active { box-shadow: inset 5px 0 7px rgba(255,255,255,.16), inset -5px 0 7px rgba(0,0,0,.1), inset 0 -16px 14px rgba(0,0,0,.13), 0 0 20px rgba(255, 92, 26, .52); }
+    .white-key::after { content: attr(data-label); position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; color: #77766f; font: 9px 'DM Mono', monospace; opacity: .75; }
+    .white-key.is-active::after { color: #4e1f12; }
+    .key-splash { position: absolute; z-index: 6; top: -31px; left: 50%; width: 125%; height: 34px; transform: translateX(-50%); border-radius: 50% 50% 35% 35%; background: radial-gradient(ellipse at 50% 100%, rgba(255, 243, 168, .98) 0 9%, rgba(255, 151, 36, .9) 24%, rgba(242, 54, 9, .6) 48%, transparent 74%); filter: blur(1.4px); pointer-events: none; animation: splash-burst .52s ease-out forwards; }
+    .key-splash::before, .key-splash::after { content: ''; position: absolute; bottom: 1px; border-radius: 60% 40% 45% 55%; filter: blur(1px); }
+    .key-splash::before { left: 5%; width: 35%; height: 22px; background: rgba(255, 91, 16, .78); transform: rotate(-18deg); }
+    .key-splash::after { right: 5%; width: 31%; height: 19px; background: rgba(255, 188, 57, .76); transform: rotate(17deg); }
+    .black-key .key-splash { top: -26px; }
+    @keyframes splash-burst { 0% { opacity: 0; transform: translateX(-50%) translateY(5px) scale(.45); } 18% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) translateY(-6px) scale(1); } }
+    .black-key { position: absolute; top: 0; z-index: 3; width: .86%; height: 93px; transform: translateX(-50%); border: 1px solid #1b1d1b; border-top: 2px solid #444842; border-radius: 0 0 3px 3px; background: linear-gradient(100deg, #030404, #171a18 48%, #010101); box-shadow: 3px 5px 7px rgba(0,0,0,.6), inset -2px 0 2px rgba(255,255,255,.05); cursor: pointer; }
+    .black-key.is-active { background: linear-gradient(100deg, #030404, #171a18 48%, #010101); border-top-color: #927040; box-shadow: 0 -7px 20px rgba(190, 56, 19, .48), 3px 5px 7px rgba(0,0,0,.6); transform: translateX(-50%) translateY(1px); }
+    .black-key.near-active { box-shadow: 0 0 17px rgba(185, 52, 18, .55), 3px 5px 7px rgba(0,0,0,.6); }
+
+    @media (max-width: 700px) {
+      .app { grid-template-rows: 64px minmax(0, 1fr) 178px; }
+      header { padding: 0 18px; }
+      .brand span, .status { display: none; }
+      .note-readout { top: 26px; right: 20px; }
+      .note { font-size: 24px; }
+      .keyboard-area { padding: 5px 10px 10px; }
+      .piano, .white-key { height: 126px; }
+      .black-key { height: 78px; }
+      .white-key::after { display: none; }
+      .keyboard-head { font-size: 8px; }
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <a href="#" class="brand">TH TECH</a>
-    <nav>
-      <a href="#ohjelmia">Ohjelmia</a>
-      <a href="#yhteystiedot">Yritys</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="eyebrow">Digitaalisia ratkaisuja</div>
-      <h1>Ohjelmistojen suunnittelu ja valmistus.</h1>
-      <p>Modernien, suorituskykyisten ja interaktiivisten verkkosovellusten kehitystä.</p>
+  <main class="app">
+    <header>
+      <div class="brand"><div class="brand-mark" aria-hidden="true"></div><strong>EMBER KEYS</strong></div>
+      <div class="header-tools">
+        <div id="loaderStatus">LOADING SAMPLES...</div>
+        <button class="gear-button" id="settingsToggle" type="button" aria-label="Settings" title="Settings">&#9881;</button>
+        <div class="settings-panel" id="settingsPanel">
+          <label class="setting">
+            <span class="setting-head"><span>VOLUME</span><output id="volValue">80%</output></span>
+            <input id="volSlider" type="range" min="0" max="1" step="0.05" value="0.8">
+          </label>
+          <label class="setting setting-checkbox">
+            <span>MUTE PIANO</span><input id="muteToggle" type="checkbox">
+          </label>
+          <label class="setting">
+            <span class="setting-head"><span>KEY COUNT</span><output id="keyCountValue">88</output></span>
+            <select id="keyCount">
+              <option value="88">88 keys</option>
+              <option value="76">76 keys</option>
+              <option value="61">61 keys</option>
+            </select>
+          </label>
+          <label class="setting">
+            <span class="setting-head"><span>RISE SPEED</span><output id="riseSpeedValue">0.12</output></span>
+            <input id="riseSpeed" type="range" min="0.04" max="0.3" step="0.01" value="0.12">
+          </label>
+          <label class="setting">
+            <span class="setting-head"><span>KEY BRIGHTNESS</span><output id="keyBrightnessValue">56%</output></span>
+            <input id="keyBrightness" type="range" min="0.25" max="1" step="0.01" value="0.56">
+          </label>
+        </div>
+        <div class="status" id="midiStatus"><i class="status-dot"></i> MIDI</div>
+      </div>
+    </header>
+    <section class="stage" aria-label="Note effects">
+      <div class="note-readout"><div class="label">LAST NOTE</div><div class="note" id="noteReadout">--</div></div>
+      <div id="effects"></div>
     </section>
-
-    <h2 id="ohjelmia" class="section-title">Ohjelmia</h2>
-    
-    <div class="grid">
-      <!-- Sovelluskortti, joka linkkaa ember.html -tiedostoon -->
-      <a href="ember.html" class="card">
-        <div class="card-tag">WEB MIDI API / TONE.JS</div>
-        <h3>Ember Keys</h3>
-        <p>Selainpohjainen MIDI-soitin ja syntetisaattori. Lataa oma MIDI-tiedostosi ja seuraa visuaalista putoavien nuottien näkymää suoraan selaimessa.</p>
-        <div class="card-link">Avaa sovellus</div>
-      </a>
-
-      <!-- Tähän voit myöhemmin kopioida uusia kortteja muille sovelluksille -->
-      <!--
-      <a href="muusovellus.html" class="card">
-        <div class="card-tag">TEKNOLOGIA</div>
-        <h3>Uusi Sovellus</h3>
-        <p>Kuvaus uudesta sovelluksesta tulee tähän.</p>
-        <div class="card-link">Avaa sovellus</div>
-      </a>
-      -->
-    </div>
+    <section class="keyboard-area" aria-label="Piano keyboard">
+      <div class="keyboard-head"><span id="keyCountLabel">88 / FULL RANGE</span><span id="rangeLabel">A0 — C8</span></div>
+      <div class="piano" id="piano"></div>
+    </section>
   </main>
+  
+  <script>
+    // --- AUDIO JÄRJESTELMÄ (Tone.js) ---
+    // Efektit: Pieni kaiku tuomaan pianoon tilantuntua
+    const reverb = new Tone.Reverb({ decay: 2.0, wet: 0.15 }).toDestination();
+    
+    // Äänenvoimakkuuden säädin
+    const mainVol = new Tone.Volume(-2).connect(reverb);
+    
+    // Ladataan aidot pianosamplet (Salamander Grand Piano)
+    const sampler = new Tone.Sampler({
+      urls: {
+        A0: "A0.mp3", C1: "C1.mp3", "D#1": "Ds1.mp3", "F#1": "Fs1.mp3", A1: "A1.mp3",
+        C2: "C2.mp3", "D#2": "Ds2.mp3", "F#2": "Fs2.mp3", A2: "A2.mp3", C3: "C3.mp3",
+        "D#3": "Ds3.mp3", "F#3": "Fs3.mp3", A3: "A3.mp3", C4: "C4.mp3", "D#4": "Ds4.mp3",
+        "F#4": "Fs4.mp3", A4: "A4.mp3", C5: "C5.mp3", "D#5": "Ds5.mp3", "F#5": "Fs5.mp3",
+        A5: "A5.mp3", C6: "C6.mp3", "D#6": "Ds6.mp3", "F#6": "Fs6.mp3", A6: "A6.mp3",
+        C7: "C7.mp3", "D#7": "Ds7.mp3", "F#7": "Fs7.mp3", A7: "A7.mp3", C8: "C8.mp3"
+      },
+      release: 1.2,
+      baseUrl: "https://tonejs.github.io/audio/salamander/"
+    }).connect(mainVol);
 
-  <footer id="yhteystiedot">
-    <div class="footer-info">
-      <strong>TH Tech</strong>
-      <span>Y-tunnus: 3649025-9</span>
-      <span>Oulu, Suomi</span>
-    </div>
-    <div class="footer-links">
-      <a href="mailto:thtech74@gmail.com">thtech74@gmail.com</a>
-    </div>
-  </footer>
+    let isMuted = false;
 
+    // Kun samplet on ladattu netistä, piilotetaan latausilmoitus
+    Tone.loaded().then(() => {
+      document.getElementById('loaderStatus').style.display = 'none';
+    });
+
+    // --- KÄYTTÖLIITTYMÄ / ASETUKSET ---
+    const piano = document.querySelector('#piano');
+    const effects = document.querySelector('#effects');
+    const noteReadout = document.querySelector('#noteReadout');
+    const midiStatus = document.querySelector('#midiStatus');
+    const settingsPanel = document.querySelector('#settingsPanel');
+    
+    let currentRiseSpeed = parseFloat(document.querySelector('#riseSpeed').value);
+    let effectsHeight = effects.clientHeight;
+    let notes = [];
+    const activeNotes = new Map();
+    const keyElementsCache = new Map();
+
+    window.addEventListener('resize', () => { effectsHeight = effects.clientHeight; });
+
+    document.querySelector('#settingsToggle').addEventListener('click', (e) => {
+      e.stopPropagation();
+      settingsPanel.classList.toggle('is-open');
+    });
+    document.addEventListener('click', e => {
+      if (!settingsPanel.contains(e.target)) settingsPanel.classList.remove('is-open');
+    });
+
+    // Audio säädöt
+    document.querySelector('#volSlider').addEventListener('input', e => {
+      const val = parseFloat(e.target.value);
+      mainVol.volume.value = Tone.gainToDb(val);
+      document.querySelector('#volValue').textContent = `${Math.round(val * 100)}%`;
+    });
+
+    document.querySelector('#muteToggle').addEventListener('change', e => {
+      isMuted = e.target.checked;
+    });
+    
+    // Visuaaliset säädöt
+    document.querySelector('#riseSpeed').addEventListener('input', (e) => {
+      currentRiseSpeed = parseFloat(e.target.value);
+      document.documentElement.style.setProperty('--bar-speed', e.target.value);
+      document.querySelector('#riseSpeedValue').textContent = e.target.value;
+    });
+    
+    document.querySelector('#keyBrightness').addEventListener('input', (e) => {
+      document.documentElement.style.setProperty('--key-brightness', e.target.value);
+      document.querySelector('#keyBrightnessValue').textContent = `${Math.round(Number(e.target.value) * 100)}%`;
+    });
+
+    // --- PIANON RENDERÖINTI ---
+    function renderPiano(count) {
+      [...activeNotes.keys()].forEach(releaseKey);
+      piano.replaceChildren();
+      notes = [];
+      keyElementsCache.clear();
+      
+      const startMidi = count === 88 ? 21 : count === 76 ? 28 : 36;
+      for (let midi = startMidi; midi < startMidi + count; midi += 1) {
+        const octave = Math.floor(midi / 12) - 1;
+        const name = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][midi % 12];
+        notes.push({ midi, name, toneName: `${name}${octave}`, label: `${name}${octave}`, isBlack: name.includes('#') });
+      }
+      
+      const whiteNotes = notes.filter(n => !n.isBlack);
+      const whiteWidth = 100 / whiteNotes.length;
+      const whiteIndex = new Map(whiteNotes.map((n, i) => [n.midi, i]));
+      
+      whiteNotes.forEach((note, index) => {
+        const key = document.createElement('button');
+        key.className = 'white-key';
+        key.dataset.midi = note.midi;
+        key.dataset.label = index % 7 === 0 || index === whiteNotes.length - 1 ? note.label : '';
+        piano.appendChild(key);
+        keyElementsCache.set(note.midi, key);
+      });
+      
+      notes.filter(n => n.isBlack).forEach(note => {
+        const key = document.createElement('button');
+        const prevWhite = whiteNotes.find(c => c.midi === note.midi - 1);
+        key.className = 'black-key';
+        key.dataset.midi = note.midi;
+        key.style.left = `${(whiteIndex.get(prevWhite.midi) + 1) * whiteWidth}%`;
+        piano.appendChild(key);
+        keyElementsCache.set(note.midi, key);
+      });
+      
+      document.querySelector('#keyCountValue').textContent = count;
+      document.querySelector('#keyCountLabel').textContent = `${count} / FULL RANGE`;
+      document.querySelector('#rangeLabel').textContent = `${notes[0].label} — ${notes[notes.length - 1].label}`;
+      effectsHeight = effects.clientHeight;
+    }
+
+    document.querySelector('#keyCount').addEventListener('change', (e) => renderPiano(Number(e.target.value)));
+    renderPiano(88);
+
+    // --- SOITTOLOGIIKKA ---
+    async function startKey(midi, velocity = 0.8) {
+      const key = keyElementsCache.get(midi);
+      if (!key || activeNotes.has(midi)) return;
+      
+      // Tone.js Vaatii, että AudioContext käynnistetään käyttäjän interaktiosta
+      if (Tone.context.state !== 'running') await Tone.start();
+      
+      const note = notes.find(n => n.midi === midi);
+      
+      // Soita laadukas pianosample
+      if (!isMuted) {
+         sampler.triggerAttack(note.toneName, Tone.now(), velocity);
+      }
+      
+      key.classList.add('is-active');
+      document.querySelector('#noteReadout').textContent = note.label;
+      createKeySplash(key);
+      activeNotes.set(midi, createFlame(key, note));
+      updateNearbyGlow();
+    }
+
+    function createKeySplash(key) {
+      const splash = document.createElement('span');
+      splash.className = 'key-splash';
+      key.appendChild(splash);
+      window.setTimeout(() => splash.remove(), 550);
+    }
+
+    function createFlame(key, note) {
+      const flame = document.createElement('div');
+      const keyRect = key.getBoundingClientRect();
+      const stageRect = effects.getBoundingClientRect();
+      flame.className = `flame${key.classList.contains('black-key') ? ' black-flame' : ''}`;
+      flame.style.left = `${keyRect.left + keyRect.width / 2 - stageRect.left}px`;
+      flame.style.setProperty('--width', `${Math.max(keyRect.width * .94, 4)}px`);
+      
+      const aura = document.createElement('i'); aura.className = 'flame-aura';
+      const lick = document.createElement('i'); lick.className = 'flame-lick';
+      flame.append(aura, lick);
+      
+      for (let i = 0; i < 4; i++) {
+        const tongue = document.createElement('i');
+        tongue.className = 'flame-tongue';
+        tongue.style.setProperty('--tongue-left', `${10 + i * 23 + Math.random() * 4}%`);
+        tongue.style.setProperty('--tongue-width', `${24 + Math.random() * 10}%`);
+        tongue.style.setProperty('--tongue-height', `${45 + Math.random() * 55}%`);
+        tongue.style.setProperty('--tongue-opacity', `${.32 + Math.random() * .32}`);
+        tongue.style.setProperty('--tongue-speed', `${.55 + Math.random() * .3}s`);
+        lick.appendChild(tongue);
+      }
+      
+      effects.appendChild(flame);
+      const startTime = performance.now();
+      
+      const active = { flame, startTime, animationFrame: null, released: false, lastParticle: startTime, currentHeight: 12, travel: 0 };
+      
+      const grow = now => {
+        if (active.released) return;
+        active.currentHeight = Math.min(effectsHeight, Math.max(12, (now - startTime) * currentRiseSpeed));
+        flame.style.height = `${active.currentHeight}px`;
+        
+        if (now - active.lastParticle > 130 + Math.random() * 120) {
+          createTrailParticle(flame, active.currentHeight);
+          active.lastParticle = now;
+        }
+        active.animationFrame = requestAnimationFrame(grow);
+      };
+      
+      active.animationFrame = requestAnimationFrame(grow);
+      return active;
+    }
+
+    function createTrailParticle(flame, height) {
+      const particle = document.createElement('i');
+      particle.className = 'trail-particle';
+      particle.style.setProperty('--particle-size', `${1.5 + Math.random() * 2.5}px`);
+      particle.style.setProperty('--particle-left', `${Math.random() * 100}%`);
+      particle.style.setProperty('--particle-bottom', `${Math.max(5, height * (.35 + Math.random() * .55))}px`);
+      particle.style.setProperty('--particle-drift', `${-16 + Math.random() * 32}px`);
+      particle.style.setProperty('--particle-rise', `${-28 - Math.random() * 58}px`);
+      particle.style.setProperty('--particle-duration', `${.55 + Math.random() * .55}s`);
+      flame.appendChild(particle);
+      window.setTimeout(() => particle.remove(), 1200);
+    }
+
+    let pointerDown = false;
+    piano.addEventListener('pointerdown', e => {
+      const key = e.target.closest('.white-key, .black-key');
+      if (key) { pointerDown = true; startKey(Number(key.dataset.midi)); }
+    });
+    piano.addEventListener('pointerover', e => {
+      const key = e.target.closest('.white-key, .black-key');
+      if (pointerDown && e.buttons && key) startKey(Number(key.dataset.midi));
+    });
+    window.addEventListener('pointerup', () => { pointerDown = false; [...activeNotes.keys()].forEach(releaseKey); });
+
+    function releaseKey(midi) {
+      const active = activeNotes.get(midi);
+      if (!active) return;
+      
+      // Pysäytä ääni siististi Tone.js:n release-mekanismilla
+      const note = notes.find(n => n.midi === midi);
+      if (!isMuted) sampler.triggerRelease(note.toneName);
+      
+      active.released = true;
+      if (active.animationFrame) cancelAnimationFrame(active.animationFrame);
+      active.flame.style.height = `${active.currentHeight}px`;
+      
+      const key = keyElementsCache.get(midi);
+      key?.classList.remove('is-active');
+      activeNotes.delete(midi);
+      updateNearbyGlow();
+      continueFlame(active);
+    }
+
+    function updateNearbyGlow() {
+      keyElementsCache.forEach(key => key.classList.remove('near-active'));
+      activeNotes.forEach((active, midi) => {
+        for (let offset = -2; offset <= 2; offset += 1) {
+          if (offset === 0) continue;
+          const neighbor = keyElementsCache.get(midi + offset);
+          if (neighbor) neighbor.classList.add('near-active');
+        }
+      });
+    }
+
+    function continueFlame(active) {
+      let lastTime = performance.now();
+      let lastParticle = lastTime;
+      
+      const move = now => {
+        active.travel += (now - lastTime) * currentRiseSpeed;
+        lastTime = now;
+        active.flame.style.bottom = `${active.travel}px`;
+        
+        if (now - lastParticle > 130 + Math.random() * 120) {
+          createTrailParticle(active.flame, active.currentHeight);
+          lastParticle = now;
+        }
+        
+        if (active.travel < effectsHeight + active.currentHeight) {
+          active.animationFrame = requestAnimationFrame(move);
+        } else {
+          active.flame.remove();
+        }
+      };
+      active.animationFrame = requestAnimationFrame(move);
+    }
+
+    const keyMap = { a: 60, w: 61, s: 62, e: 63, d: 64, f: 65, t: 66, g: 67, y: 68, h: 69, u: 70, j: 71, k: 72 };
+    window.addEventListener('keydown', e => { if (!e.repeat && keyMap[e.key.toLowerCase()]) startKey(keyMap[e.key.toLowerCase()]); });
+    window.addEventListener('keyup', e => { if (keyMap[e.key.toLowerCase()]) releaseKey(keyMap[e.key.toLowerCase()]); });
+
+    // MIDI Koskettimisto
+    if (navigator.requestMIDIAccess) {
+      navigator.requestMIDIAccess().then(access => {
+        const updateMidiStatus = () => {
+          const hasInput = access.inputs.size > 0;
+          midiStatus.classList.toggle('is-ready', hasInput);
+          access.inputs.forEach(input => { 
+            input.onmidimessage = e => {
+              const [cmd, midi, vel] = e.data;
+              if (cmd === 0x90 && vel > 0) startKey(midi, vel / 127);
+              else if (cmd === 0x80 || (cmd === 0x90 && vel === 0)) releaseKey(midi);
+            };
+          });
+        };
+        access.addEventListener('statechange', updateMidiStatus);
+        updateMidiStatus();
+      }).catch(() => {});
+    }
+  </script>
 </body>
 </html>
