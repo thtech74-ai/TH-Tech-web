@@ -214,71 +214,31 @@
     }
 
     .section {
-      padding: 4rem 0;
+      padding: 2rem 0 4rem;
     }
 
     .muted {
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(255, 255, 255, 0.015);
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
     }
 
     .section-heading {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.5rem;
-    }
-
-    .info-card {
-      background: var(--surface);
+    .simple-box {
+      max-width: 760px;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--line);
       border-radius: 18px;
-      padding: 1.5rem;
-      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
     }
 
-    .info-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.6rem;
-    }
-
-    .info-card p {
+    .simple-box p {
       margin: 0;
       color: var(--muted);
-    }
-
-    .split {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .split p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 1.05rem;
-    }
-
-    .mini-list {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .mini-item {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 1rem 1.1rem;
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .mini-item strong {
-      display: block;
-      margin-bottom: 0.25rem;
+      font-size: 1.04rem;
     }
 
     .site-footer {
@@ -390,50 +350,12 @@
     <section class="section muted">
       <div class="container">
         <div class="section-heading">
-          <p class="eyebrow">Miksi valita TH Tech?</p>
-          <h2>Toimiva ratkaisu ja selkeä prosessi.</h2>
+          <p class="eyebrow">Miksi TH Tech?</p>
+          <h2>Yksinkertainen ja käytännöllinen lähestymistapa.</h2>
         </div>
 
-        <div class="card-grid">
-          <article class="info-card">
-            <h3>Suunnittelu</h3>
-            <p>Puretaan ongelma ja rakennetaan selkeä näkemys siitä, mitä käyttäjä tarvitsee.</p>
-          </article>
-
-          <article class="info-card">
-            <h3>Rakentaminen</h3>
-            <p>Ei bugeja, vain yllättäviä ominaisuuksia. </p>
-          </article>
-
-          <article class="info-card">
-            <h3>Toiminnallisuus</h3>
-            <p>Kaikki ratkaisut rakennetaan käytettäväksi sekä puhelimella että tietokoneella.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container split">
-        <div>
-          <p class="eyebrow">Lähestymistapa</p>
-          <h2>Ratkaisut, jotka toimivat käytännössä.</h2>
-          <p>TH Tech keskittyy siihen, että teknologia palvelee käytettävyyttä, nopeutta ja näkyvyyttä. Jokainen tuote rakennetaan ottaen huomioon käyttäjäkokemus sekä liiketoiminnan tarpeet.</p>
-        </div>
-
-        <div class="mini-list">
-          <div class="mini-item">
-            <strong>Responsiivinen suunnittelu</strong>
-            <span>Testattu ja todettu toimivaksi riittävän monta kertaa</span>
-          </div>
-          <div class="mini-item">
-            <strong>Selkeä käytettävyys</strong>
-            <span>Ymmärrettävät toiminnot ja sujuva navigaatio.</span>
-          </div>
-          <div class="mini-item">
-            <strong>Tavoitteet edellä</strong>
-            <span>Päivitetty viimeksi silloin, kun kaikki vielä toimi.</span>
-          </div>
+        <div class="simple-box">
+          <p>TH Tech rakentaa selkeitä digitaalisia ratkaisuja, jotka toimivat sekä työpöydällä että puhelimella. Tarkoitus on tehdä teknologia näkyväksi juuri siinä kohtaa, missä se auttaa eniten.</p>
         </div>
       </div>
     </section>
