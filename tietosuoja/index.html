@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TH Projects | Ohjelmat</title>
+  <title>TH Projects | Nettiseurat – Tietosuojakäytäntö</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
     :root {
       --bg: #050606;
       --surface: #101212;
-      --surface-2: #171b1b;
       --line: rgba(255, 255, 255, 0.08);
       --text: #e8e5dd;
       --muted: #a4aaa4;
@@ -30,7 +29,7 @@
       background: radial-gradient(circle at top, rgba(255, 79, 31, 0.15), transparent 25%), var(--bg);
       color: var(--text);
       font-family: 'Space Grotesk', sans-serif;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     a {
@@ -38,7 +37,7 @@
     }
 
     .container {
-      width: min(1120px, calc(100% - 2rem));
+      width: min(920px, calc(100% - 2rem));
       margin: 0 auto;
     }
 
@@ -103,74 +102,75 @@
       color: var(--ember-hot);
     }
 
-    .page {
+    main {
       padding: 4rem 0 5rem;
-    }
-
-    main.container.page {
-      max-width: 900px;
     }
 
     .eyebrow {
       margin: 0 0 0.9rem;
       color: var(--ember-hot);
       font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.16em;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
     }
 
     h1 {
       font-size: clamp(2.3rem, 6vw, 4rem);
-      margin: 0 0 1.5rem;
+      margin: 0 0 1rem;
       line-height: 1.1;
       letter-spacing: -0.05em;
     }
 
-    .intro {
-      margin: 0 0 2rem;
-      color: var(--muted);
-      max-width: 620px;
-      font-size: 1.05rem;
+    h2 {
+      margin: 2rem 0 0.75rem;
+      font-size: clamp(1.3rem, 2vw, 1.8rem);
+      line-height: 1.2;
     }
 
-    .info-card {
+    p, li {
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .policy-card {
       background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: clamp(1.25rem, 3vw, 2.5rem);
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
-      max-width: 860px;
+      border-radius: 20px;
+      padding: clamp(1.3rem, 3vw, 2.5rem);
+      box-shadow: var(--shadow);
     }
 
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
+    ul {
+      padding-left: 1.2rem;
+      margin: 0.75rem 0 0;
     }
 
-    .info-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
+    li + li {
+      margin-top: 0.5rem;
     }
 
-    .info-label {
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .info-value {
-      font-size: 1.04rem;
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    .info-value a {
+    a.inline-link {
       color: var(--ember-hot);
+      text-decoration: none;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--line);
+      padding: 1.5rem 0 2rem;
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-inner a {
+      color: var(--text);
       text-decoration: none;
     }
 
@@ -205,11 +205,6 @@
         font-size: 0.68rem;
       }
 
-      .app-info {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
       .footer-inner {
         flex-direction: column;
         align-items: flex-start;
@@ -223,35 +218,51 @@
       <a href="../" class="brand">TH Projects</a>
       <nav class="nav-links" aria-label="Päävalikko">
         <a href="../">Etusivu</a>
-        <a href="./">Ohjelmat</a>
+        <a href="../ohjelmia/">Ohjelmat</a>
         <a href="../yritys/">Yritys</a>
       </nav>
     </div>
   </header>
 
-  <main class="container page">
-    <p class="eyebrow">Kehitystyöt ja sovellukset</p>
-    <h1>Ohjelmat</h1>
+  <main class="container">
+    <p class="eyebrow">Nettiseurat</p>
+    <h1>Tietosuojakäytäntö</h1>
 
-    <div class="info-card">
-      <div class="info-grid">
-        <div class="info-group">
-          <span class="info-label">Sovellus</span>
-          <span class="info-value">Ember Keys</span>
-        </div>
+    <div class="policy-card">
+      <p><strong>Voimassa 14.9.2026 alkaen.</strong></p>
 
-        <div class="info-group">
-          <span class="info-label">Kuvaus</span>
-          <span class="info-value">Interaktiivinen pianotyökalu, joka toimii nopeasti ja selkeästi myös mobiililaitteilla.</span>
-        </div>
+      <p>Nettiseurat tarjoaa seurojen live-lähetysten ja tallenteiden kuuntelun. Sovellus ei vaadi käyttäjätiliä eikä kerää nimeä, sähköpostiosoitetta, sijaintia tai muuta suoraa henkilötietoa.</p>
 
-        <div class="info-group">
-          <span class="info-label">Toiminto</span>
-          <span class="info-value"><a href="ember-keys/">Avaa ohjelma →</a></span>
-        </div>
-      </div>
+      <h2>Tiedot ja niiden käyttö</h2>
+      <ul>
+        <li>Sovellus tallentaa laitteelle vain käyttäjän lisäämät lähetykset, asetukset ja tallenteiden kuuntelukohdan. Tiedot voi poistaa sovelluksen tiedot tyhjentämällä Androidin asetuksista.</li>
+        <li>Virallisten lähetysten lista haetaan Google Firebase Firestoresta. Google voi käsitellä yhteyden teknisiä tietoja, kuten IP-osoitetta, oman tietosuojakäytäntönsä mukaisesti.</li>
+        <li>Lähetysten palveluntarjoajat voivat käsitellä IP-osoitetta, kun lähetystä kuunnellaan suoraan heidän palvelimeltaan.</li>
+      </ul>
+
+      <h2>Oikeudet</h2>
+      <ul>
+        <li>Ilmoituslupaa käytetään vain ilmoittamaan, kun lähetys alkaa, ja näyttämään toiston hallintailmoitus.</li>
+        <li>Virransaastopoikkeusta pyydetään, jotta taustalla soitettava lähetys ei keskeydy tarpeettomasti.</li>
+      </ul>
+
+      <p>Sovellus ei käytä mainontaa, analytiikkaa eikä myy tai luovuta käyttäjätietoja kolmansille osapuolille.</p>
+
+      <h2>Yhteys</h2>
+      <p>Tietosuojaa koskevissa asioissa ota yhteys sovelluksen julkaisijaan Google Play -kauppasivulla ilmoitetun sähköpostiosoitteen kautta.</p>
     </div>
   </main>
 
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>TH Projects</strong>
+      </div>
+      <div>
+        <a href="../">Etusivu</a> ·
+        <a href="../tietosuoja/">Tietosuojakäytäntö</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
